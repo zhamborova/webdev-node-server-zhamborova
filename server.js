@@ -26,4 +26,6 @@ app.use(function (req, res, next) {
 require("./controllers/quizzes-controller")(app)
 require("./controllers/questions-controller")(app)
 
+app.get("/", (req, res) => res.send("hi"))
+
 app.listen(3000)
