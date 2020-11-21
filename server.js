@@ -3,6 +3,16 @@ const app = express()
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+const mongoose = require('mongoose');
+const uri = "mongodb+srv://89034970304Zz:89034970304Zz@cluster0.wqibe.mongodb.net/whiteboard?retryWrites=true&w=majority";
+
+mongoose.connect(uri, {useNewUrlParser: true,useUnifiedTopology: true });
+
+
+
+
+
+
 
 require("./controllers/quizzes-controller")(app)
 require("./controllers/questions-controller")(app)
@@ -19,5 +29,11 @@ app.use(function (req, res, next) {
 });
 
 
+const quizzesService = require('./services/quizzes.services')
 
-app.listen(process.env.PORT || 3000)
+quizzesService.findAllQuizzes().then(qs => console.log(qs))
+
+
+app.listen(process.env.PORT || 3000,(pr)=>{
+   console.log("listening on port:3000")
+})
