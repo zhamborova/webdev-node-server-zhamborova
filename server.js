@@ -1,5 +1,14 @@
 const express = require("express")
 const app = express()
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+require("./controllers/quizzes-controller")(app)
+require("./controllers/questions-controller")(app)
+require("./controllers/general")(app)
+require('./controllers/quiz-attempts.controller.server')(app)
+
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers',
@@ -9,22 +18,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/whiteboard', {useNewUrlParser: true});
-//
-// const quizSchema = mongoose.Schema({
-//   name: String,
-//   avg: Number
-// }, {collection: "quizzes"})
-//
-// const quizModel = mongoose.model("QuizModel", quizSchema)
 
-// quizModel.find()
-//   .then(quizzes => console.log(quizzes))
-//
-
-require("./controllers/quizzes-controller")(app)
-require("./controllers/questions-controller")(app)
-require("./controllers/general")(app)
 
 app.listen(process.env.PORT || 3000)

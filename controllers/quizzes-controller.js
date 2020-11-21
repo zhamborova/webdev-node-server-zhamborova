@@ -1,22 +1,9 @@
-
-const quizzesService = require("../services/quizzes-service")
-
-module.exports = (app) => {
-
-  const findAllQuizzes = (req, res) =>
-    res.send(quizzesService.findAllQuizzes())
-
-  const findQuizById   = (req, res) =>
-    res.send(quizzesService.findQuizById(req.params['qid']))
-
-  const deleteQuiz = (req, res) =>
-    res.send(quizzesService.deleteQuiz(req.params['qid']))
-
-  const createQuiz = (req, res) =>
-    res.send(quizzesService.createQuiz())
-
-  app.get("/api/quizzes", findAllQuizzes)
-  app.get("/api/quizzes/:qid", findQuizById)
-  app.delete("/api/quizzes/:qid", deleteQuiz)
-  app.post("/api/quizzes", createQuiz)
+const quizzesService = require('../services/quizzes.services')
+module.exports = function (app) {
+  app.get('/api/quizzes', (req, res) =>
+      quizzesService.findAllQuizzes()
+          .then(allQuizzes => res.json(allQuizzes)))
+  app.get('/api/quizzes/:qzid', (req, res) =>
+      quizzesService.findQuizById(req.params['qzid'])
+          .then(quiz => res.json(quiz)))
 }
